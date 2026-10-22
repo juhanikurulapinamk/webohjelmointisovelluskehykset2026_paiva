@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using API.Dtos;
 using API.Models;
+using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using SQLitePCL;
 
