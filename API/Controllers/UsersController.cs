@@ -17,8 +17,10 @@ public class UsersController : ControllerBase
     {
         try
         {
-            var users = await AppUser.GetAll();
+            using var repo = new UsersSQLiteRepository();
+            var users = await repo.GetAll();
             return Ok(users);
+
         } catch(Exception e)
         {
             return Problem($"Database error: {e.Message}", statusCode: StatusCodes.Status500InternalServerError);
@@ -30,14 +32,17 @@ public class UsersController : ControllerBase
     {
         try
         {
-            var user = await AppUser.GetById(id);
+            using var repo = new UsersSQLiteRepository();
+            var user = await repo.GetById(id);
             if(user == null)
             {
                 return NotFound("User not found");
             }
 
+            await repo.Remove(id);
 
-            // TODO: Muista lisätä tähän remove
+
+            
             return NoContent();
 
         } catch(Exception e)
@@ -51,7 +56,8 @@ public class UsersController : ControllerBase
     {
         try
         {
-            var user = await AppUser.GetById(id);
+            using var repo = new UsersSQLiteRepository();
+            var user = repo.GetById(id);
             if(user == null)
             {
                 return NotFound("user not found");
