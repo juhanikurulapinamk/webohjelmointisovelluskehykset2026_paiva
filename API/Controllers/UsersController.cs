@@ -1,6 +1,7 @@
 
 using System.Security.Cryptography.X509Certificates;
 using API.Dtos;
+using API.Factories;
 using API.Models;
 using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ public class UsersController : ControllerBase
     {
         try
         {
-            using var repo = new UsersSQLiteRepository();
+            using var repo = UsersRepositoryFactory.Create();
             var users = await repo.GetAll();
             return Ok(users);
 
@@ -33,7 +34,7 @@ public class UsersController : ControllerBase
     {
         try
         {
-            using var repo = new UsersSQLiteRepository();
+            using var repo = UsersRepositoryFactory.Create();
             var user = await repo.GetById(id);
             if(user == null)
             {
@@ -57,7 +58,7 @@ public class UsersController : ControllerBase
     {
         try
         {
-            using var repo = new UsersSQLiteRepository();
+            using var repo = UsersRepositoryFactory.Create();
             var user = repo.GetById(id);
             if(user == null)
             {
