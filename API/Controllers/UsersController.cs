@@ -1,7 +1,8 @@
 
-using System.Security.Cryptography.X509Certificates;
+
 using API.Dtos;
-using API.Factories;
+
+using API.Interfaces;
 using API.Models;
 using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController : ControllerBase
+public class UsersController(IUsersRepository repo) : ControllerBase
 {
     
     [HttpGet]
@@ -19,7 +20,7 @@ public class UsersController : ControllerBase
     {
         try
         {
-            using var repo = UsersRepositoryFactory.Create();
+            
             var users = await repo.GetAll();
             return Ok(users);
 
@@ -34,7 +35,7 @@ public class UsersController : ControllerBase
     {
         try
         {
-            using var repo = UsersRepositoryFactory.Create();
+            
             var user = await repo.GetById(id);
             if(user == null)
             {
@@ -58,7 +59,7 @@ public class UsersController : ControllerBase
     {
         try
         {
-            using var repo = UsersRepositoryFactory.Create();
+            
             var user = repo.GetById(id);
             if(user == null)
             {

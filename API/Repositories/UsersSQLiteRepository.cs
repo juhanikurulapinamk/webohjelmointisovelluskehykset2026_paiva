@@ -4,27 +4,16 @@ using Microsoft.Data.Sqlite;
 
 namespace API.Repositories;
 
-public class UsersSQLiteRepository : IUsersRepository
+public class UsersSQLiteRepository(SqliteConnection _connection) : IUsersRepository
 {
-    private readonly SqliteConnection _connection;
+    
 
-    public UsersSQLiteRepository()
-    {
-        _connection = new SqliteConnection("Data Source=tuntiharjoitus1.db");
-        _connection.Open();
-    }
+    
 
 
     // Tämä metodi suoritetaan automaattisesti,
     // kun Controllerissa mennään using-blokin ulkoupuolelle
-    public void Dispose()
-    {
-        if (_connection != null)
-        {
-            _connection.Close();
-            _connection.Dispose();
-        }
-    }
+    
 
     public async Task<IEnumerable<AppUser>> GetAll()
         {
